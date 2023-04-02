@@ -1,5 +1,7 @@
 package com.prabhu.patient;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -13,9 +15,9 @@ public class PatientServices {
 	@Autowired
 	private AppointmentServices appointmentServices;
 
-	public String bookAppointments(Patient patient) {
+	public String bookAppointments(Patient patient, LocalDateTime appointmentDateTime) {
 		if (patient != null && StringUtils.hasText(patient.getFirstName())) {
-			return postProcessing(patient);
+			return postProcessing(patient, appointmentDateTime);
 
 		}
 
@@ -23,9 +25,9 @@ public class PatientServices {
 
 	}
 
-	private String postProcessing(Patient patient) {
+	private String postProcessing(Patient patient, LocalDateTime appointmentDateTime) {
 		Patient normalizedPatient = normalize(patient);
-		boolean isAppointmentBooked = appointmentServices.bookAppointment(normalizedPatient);
+		boolean isAppointmentBooked = appointmentServices.bookAppointment(normalizedPatient, appointmentDateTime);
 		if (isAppointmentBooked) {
 			return SUCCESSFULL;
 		}
