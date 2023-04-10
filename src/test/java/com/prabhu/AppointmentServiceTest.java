@@ -13,8 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.prabhu.patient.AppointmentServices;
-import com.prabhu.patient.Patient;
+import com.java.bytes.patientServices.AppointmentServices;
+import com.java.bytes.patientServices.Patient;
 
 @ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {

@@ -16,9 +16,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.prabhu.patient.AppointmentServices;
-import com.prabhu.patient.Patient;
-import com.prabhu.patient.PatientServices;
+import com.java.bytes.patientServices.AppointmentServices;
+import com.java.bytes.patientServices.Patient;
+import com.java.bytes.patientServices.PatientServices;
 
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {

@@ -1,4 +1,4 @@
-package com.prabhu.patient;
+package com.java.bytes.patientServices;
 
 import java.time.LocalDate;
 
