@@ -1,4 +1,4 @@
-package com.prabhu;
+package com.java.bytes;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
