@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Patient {
+public class PatientDTO {
 	
 	private String firstName;
 	private String lastName;

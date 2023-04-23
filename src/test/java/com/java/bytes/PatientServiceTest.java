@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.java.bytes.patientServices.AppointmentServices;
-import com.java.bytes.patientServices.Patient;
+import com.java.bytes.patientServices.PatientDTO;
 import com.java.bytes.patientServices.PatientServices;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,19 +32,19 @@ class PatientServiceTest {
 	@Test
 	@DisplayName("Test appointment booking with appointment Service returns true")
 	void test_book_appointments_with_appointment_service_true() {
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
-		Mockito.when(appointmentService.bookAppointment(Mockito.any(Patient.class), Mockito.any(LocalDateTime.class)))
+		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		Mockito.when(appointmentService.bookAppointment(Mockito.any(PatientDTO.class), Mockito.any(LocalDateTime.class)))
 				.thenReturn(true);
 
 		assertTrue(
 				"ok".equalsIgnoreCase(patientService.bookAppointments(testPatient, LocalDateTime.now())));
 		
-		ArgumentCaptor<Patient> normalizedPatientCaptor = ArgumentCaptor.forClass(Patient.class);
+		ArgumentCaptor<PatientDTO> normalizedPatientCaptor = ArgumentCaptor.forClass(PatientDTO.class);
 		ArgumentCaptor<LocalDateTime> appointmentLocalDateTimeCaptor = ArgumentCaptor.forClass(LocalDateTime.class);
 
 		Mockito.verify(appointmentService, times(1)).bookAppointment(normalizedPatientCaptor.capture(),
 				appointmentLocalDateTimeCaptor.capture());
-		Patient capturedPatient = normalizedPatientCaptor.getValue();
+		PatientDTO capturedPatient = normalizedPatientCaptor.getValue();
 		assertTrue("JOHN".equals(capturedPatient.getFirstName()));
 		assertTrue("DOE".equals(capturedPatient.getLastName()));
 		assertTrue(testPatient.getDateOfBirth().equals(capturedPatient.getDateOfBirth()));
@@ -56,8 +56,8 @@ class PatientServiceTest {
 	@Test
 	@DisplayName("Test appointment booking with appointment Service returns false")
 	void test_book_appointments_with_appointment_service_false() {
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
-		Mockito.when(appointmentService.bookAppointment(Mockito.any(Patient.class), Mockito.any(LocalDateTime.class)))
+		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		Mockito.when(appointmentService.bookAppointment(Mockito.any(PatientDTO.class), Mockito.any(LocalDateTime.class)))
 				.thenReturn(false);
 		assertTrue("failure"
 				.equalsIgnoreCase(patientService.bookAppointments(testPatient, LocalDateTime.now())));
@@ -68,7 +68,7 @@ class PatientServiceTest {
 	@Test
 	@DisplayName("Throw exception appointment booking with empty patient")
 	void test_book_appointments_with_null_Patient() {
-		Patient testPatient = Patient.builder().firstName(null).lastName(null).dateOfBirth(null).build();
+		PatientDTO testPatient = PatientDTO.builder().firstName(null).lastName(null).dateOfBirth(null).build();
 		assertThrows(IllegalArgumentException.class, () -> patientService
 				.bookAppointments(testPatient, LocalDateTime.now()));
 

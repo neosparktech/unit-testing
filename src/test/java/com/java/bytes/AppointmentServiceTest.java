@@ -14,7 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.java.bytes.patientServices.AppointmentServices;
-import com.java.bytes.patientServices.Patient;
+import com.java.bytes.patientServices.PatientDTO;
 
 @ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {
@@ -25,7 +25,7 @@ class AppointmentServiceTest {
 
 	@Test
 	void test_appointment_date_in_past() {
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 
 		LocalDateTime fixedDateTime = LocalDateTime.of(2023, 4, 2, 10, 00);
 		try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class)) {
@@ -38,7 +38,7 @@ class AppointmentServiceTest {
 	@Test
 	void test_appointment_date_not_in_past()
 	{
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
 			appointmentService.bookAppointment(testPatient, LocalDateTime.of(2023, 4, 2, 10, 00));

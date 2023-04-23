@@ -1,10 +1,14 @@
 package com.java.bytes.patientServices;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.java.bytes.data.repositories.PatientRepo;
+import com.java.bytes.entities.Patient;
 
 @Service
 public class PatientServices {
@@ -15,7 +19,18 @@ public class PatientServices {
 	@Autowired
 	private AppointmentServices appointmentServices;
 
-	public String bookAppointments(Patient patient, LocalDateTime appointmentDateTime) {
+	@Autowired
+	private PatientRepo patientRepo;
+
+	public UUID createPatients(PatientDTO patientDTO) {
+
+		Patient patient = Patient.builder().firstName(patientDTO.getFirstName()).lastName(patientDTO.getLastName())
+				.dateOfBirth(patientDTO.getDateOfBirth()).build();
+		return patientRepo.save(patient).getId();
+
+	}
+
+	public String bookAppointments(PatientDTO patient, LocalDateTime appointmentDateTime) {
 		if (patient != null && StringUtils.hasText(patient.getFirstName())) {
 			return postProcessing(patient, appointmentDateTime);
 
@@ -25,8 +40,8 @@ public class PatientServices {
 
 	}
 
-	private String postProcessing(Patient patient, LocalDateTime appointmentDateTime) {
-		Patient normalizedPatient = normalize(patient);
+	private String postProcessing(PatientDTO patient, LocalDateTime appointmentDateTime) {
+		PatientDTO normalizedPatient = normalize(patient);
 		boolean isAppointmentBooked = appointmentServices.bookAppointment(normalizedPatient, appointmentDateTime);
 		if (isAppointmentBooked) {
 			return SUCCESSFULL;
@@ -34,8 +49,8 @@ public class PatientServices {
 		return FAILURE;
 	}
 
-	private Patient normalize(Patient patient) {
-		return Patient.builder().firstName(patient.getFirstName().toUpperCase())
+	private PatientDTO normalize(PatientDTO patient) {
+		return PatientDTO.builder().firstName(patient.getFirstName().toUpperCase())
 				.lastName(StringUtils.capitalize(patient.getLastName().toUpperCase())).dateOfBirth(patient.getDateOfBirth()).build();
 
 	}
