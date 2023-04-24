@@ -1,6 +1,6 @@
 package com.java.bytes;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
@@ -17,14 +17,14 @@ import com.java.bytes.patientServices.AppointmentServices;
 import com.java.bytes.patientServices.PatientDTO;
 
 @ExtendWith(MockitoExtension.class)
-class AppointmentServiceTest {
+public class AppointmentServiceTest {
 
 	@Spy
 	private AppointmentServices appointmentService;
 
 
 	@Test
-	void test_appointment_date_in_past() {
+	public void test_appointment_date_in_past() {
 		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 
 		LocalDateTime fixedDateTime = LocalDateTime.of(2023, 4, 2, 10, 00);
@@ -36,7 +36,7 @@ class AppointmentServiceTest {
 	}
 
 	@Test
-	void test_appointment_date_not_in_past()
+	public void test_appointment_date_not_in_past()
 	{
 		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 

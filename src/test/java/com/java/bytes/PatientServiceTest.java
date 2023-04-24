@@ -21,7 +21,7 @@ import com.java.bytes.patientServices.PatientDTO;
 import com.java.bytes.patientServices.PatientServices;
 
 @ExtendWith(MockitoExtension.class)
-class PatientServiceTest {
+public class PatientServiceTest {
 
 	@InjectMocks
 	private PatientServices patientService;
@@ -31,7 +31,7 @@ class PatientServiceTest {
 
 	@Test
 	@DisplayName("Test appointment booking with appointment Service returns true")
-	void test_book_appointments_with_appointment_service_true() {
+	public void test_book_appointments_with_appointment_service_true() {
 		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 		Mockito.when(appointmentService.bookAppointment(Mockito.any(PatientDTO.class), Mockito.any(LocalDateTime.class)))
 				.thenReturn(true);
@@ -55,7 +55,7 @@ class PatientServiceTest {
 
 	@Test
 	@DisplayName("Test appointment booking with appointment Service returns false")
-	void test_book_appointments_with_appointment_service_false() {
+	public void test_book_appointments_with_appointment_service_false() {
 		PatientDTO testPatient = PatientDTO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
 		Mockito.when(appointmentService.bookAppointment(Mockito.any(PatientDTO.class), Mockito.any(LocalDateTime.class)))
 				.thenReturn(false);
@@ -67,7 +67,7 @@ class PatientServiceTest {
 
 	@Test
 	@DisplayName("Throw exception appointment booking with empty patient")
-	void test_book_appointments_with_null_Patient() {
+	public void test_book_appointments_with_null_Patient() {
 		PatientDTO testPatient = PatientDTO.builder().firstName(null).lastName(null).dateOfBirth(null).build();
 		assertThrows(IllegalArgumentException.class, () -> patientService
 				.bookAppointments(testPatient, LocalDateTime.now()));

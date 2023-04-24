@@ -25,7 +25,7 @@ public class Patient {
 
 	@Id
 	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "UUID", strategy = "uuid2")
 	private UUID id;
 	private String firstName;
 	private String lastName;
