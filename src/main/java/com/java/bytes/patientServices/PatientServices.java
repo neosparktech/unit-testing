@@ -3,6 +3,7 @@ package com.java.bytes.patientServices;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class PatientServices {
 		Patient patient = patientRepo.getPatientInfoByID(id);
 		if (patient == null) {
 			log.warn("Patient not found for id {}", id);
-			return null;
+			throw new EntityNotFoundException();
 		}
 		return PatientDTO.builder().firstName(patient.getFirstName()).lastName(patient.getLastName())
 				.dateOfBirth(patient.getDateOfBirth()).build();

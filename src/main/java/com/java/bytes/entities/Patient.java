@@ -3,6 +3,7 @@ package com.java.bytes.entities;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public class Patient {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "uuid2")
+	@Column(columnDefinition = "uuid")
 	private UUID id;
 	private String firstName;
 	private String lastName;
