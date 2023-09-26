@@ -26,8 +26,8 @@ public class PatientController {
 
 	}
 
-	@GetMapping("get/${id}")
-	public PatientDTO createPatients(@PathVariable UUID id) {
+	@GetMapping("get/{id}")
+	public PatientDTO createPatients(@PathVariable(name = "id") UUID id) {
 		return patientService.getPatient(id);
 
 	}

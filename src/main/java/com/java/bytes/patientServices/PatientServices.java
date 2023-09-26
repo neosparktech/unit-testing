@@ -3,6 +3,8 @@ package com.java.bytes.patientServices;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -10,7 +12,10 @@ import org.springframework.util.StringUtils;
 import com.java.bytes.data.repositories.PatientRepo;
 import com.java.bytes.entities.Patient;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PatientServices {
 
 	private static final String SUCCESSFULL = "ok";
@@ -22,6 +27,7 @@ public class PatientServices {
 	@Autowired
 	private PatientRepo patientRepo;
 
+	@Transactional
 	public UUID createPatients(PatientDTO patientDTO) {
 
 		Patient patient = Patient.builder().firstName(patientDTO.getFirstName()).lastName(patientDTO.getLastName())
@@ -31,7 +37,11 @@ public class PatientServices {
 	}
 
 	public PatientDTO getPatient(UUID id) {
-		Patient patient = patientRepo.getReferenceById(id);
+		Patient patient = patientRepo.getPatientInfoByID(id);
+		if (patient == null) {
+			log.warn("Patient not found for id {}", id);
+			return null;
+		}
 		return PatientDTO.builder().firstName(patient.getFirstName()).lastName(patient.getLastName())
 				.dateOfBirth(patient.getDateOfBirth()).build();
 
