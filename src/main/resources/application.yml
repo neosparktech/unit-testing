@@ -7,7 +7,7 @@ name: prod
 
 spring:
   datasource:
-    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:prodDB;DB_CLOSE_DELAY=-1
     username: sa
     password: sa   
   jpa:
@@ -29,7 +29,7 @@ name: test
 
 spring:
     datasource:
-     url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+     url: jdbc:h2:mem:testDb;DB_CLOSE_DELAY=-1
      username: sa
      password: sa   
     jpa:

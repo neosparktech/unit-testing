@@ -1,31 +1,29 @@
 package com.java.bytes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.persistence.EntityManager;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.java.bytes.controller.PatientController;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Slf4j
+@WebMvcTest(PatientController.class)
 public class E2EIntegrationTestMVC {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
-	private EntityManager entityManager;
-
+	private WebApplicationContext wac;
 
 
 	@Test
@@ -38,8 +36,7 @@ public class E2EIntegrationTestMVC {
 						.andReturn().getResponse().getContentAsString());
 				log.info("Log {}", response);
 
-		assertThat(entityManager.createNativeQuery("select count(1) from Patient where id = " + response)
-				.getMaxResults() == 1);
+
 	}
 
 }

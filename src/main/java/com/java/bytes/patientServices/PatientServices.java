@@ -30,6 +30,13 @@ public class PatientServices {
 
 	}
 
+	public PatientDTO getPatient(UUID id) {
+		Patient patient = patientRepo.getReferenceById(id);
+		return PatientDTO.builder().firstName(patient.getFirstName()).lastName(patient.getLastName())
+				.dateOfBirth(patient.getDateOfBirth()).build();
+
+	}
+
 	public String bookAppointments(PatientDTO patient, LocalDateTime appointmentDateTime) {
 		if (patient != null && StringUtils.hasText(patient.getFirstName())) {
 			return postProcessing(patient, appointmentDateTime);
