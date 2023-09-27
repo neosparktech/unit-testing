@@ -1,7 +1,12 @@
 package com.java.bytes;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -19,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.java.bytes.controller.PatientController;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Slf4j
+@WireMockTest(httpPort = 3434)
 public class E2EIntegrationTest {
+
+	private static final String APPLICATION_JSON = "application/json";
 
 	@Autowired
 	private PatientController patientController;
@@ -91,5 +100,22 @@ public class E2EIntegrationTest {
 				.getForEntity("http://localhost:" + port + "/patient/get/" + UUID.randomUUID(), String.class);
 		assertThat(result.getStatusCode().equals(500));
 	}
+
+
+	@Test
+	public void givenJUnitManagedServer_whenMatchingURL_thenCorrect() throws IOException {
+
+		stubFor(get(urlPathMatching("/baeldung/test")).willReturn(aResponse().withStatus(200)
+				.withHeader("Content-Type", APPLICATION_JSON).withBody("\"testing-library\": \"WireMock\"")));
+
+		ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:3434/baeldung/test", String.class);
+
+		assertThat(result.getStatusCode().equals(200));
+		log.info(result.getBody());
+	}
+
+
+
+
 
 }

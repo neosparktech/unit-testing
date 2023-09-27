@@ -9,7 +9,7 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 //@Configuration
 public class WireMockConfig {
 
-	@Value("${wiremock.port}")
+	@Value("${wiremock.port:3434}")
 	private int wireMockPort;
 
 	@Bean(initMethod = "start", destroyMethod = "stop")
@@ -17,8 +17,7 @@ public class WireMockConfig {
 		return new WireMockServer(wireMockConfig().port(wireMockPort));
 	}
 
-	@Bean
-	WireMockConfiguration wireMockConfig() {
+	private WireMockConfiguration wireMockConfig() {
 		return WireMockConfiguration.options().usingFilesUnderClasspath("wiremock").jettyStopTimeout(10000L)
 				.asynchronousResponseEnabled(true);
 	}
