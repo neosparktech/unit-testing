@@ -3,12 +3,14 @@ package com.java.bytes.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.java.bytes.patientServices.PatientDTO;
 import com.java.bytes.patientServices.PatientServices;
@@ -22,7 +24,11 @@ public class PatientController {
 
 	@PostMapping("create")
 	public UUID createPatients(@RequestBody PatientDTO patientDTO) {
-		return patientService.createPatients(patientDTO);
+		try {
+			return patientService.createPatients(patientDTO);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User Info Failed");
+		}
 
 	}
 

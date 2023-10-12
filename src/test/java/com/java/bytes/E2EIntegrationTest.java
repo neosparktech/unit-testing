@@ -4,7 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -51,7 +51,7 @@ public class E2EIntegrationTest {
 
 	@Test
 	public void contextLoads() throws Exception {
-		assertThat(patientController).isNotNull();
+		assertTrue(patientController != null);
 	}
 
 	@Test
@@ -68,10 +68,12 @@ public class E2EIntegrationTest {
 				"http://localhost:" + port + "/patient/create", entity,
 				UUID.class,
 				Collections.emptyMap());
-		assertThat(responseUUID != null);
+		assertTrue(responseUUID != null);
 
-		assertThat(entityManager.createNativeQuery("select count(1) from Patient where id = " + responseUUID)
-				.getMaxResults() == 1);
+
+		assertTrue(entityManager.createNativeQuery("select count(1) from Patient where id = ?")
+				.setParameter(1, responseUUID)
+				.getSingleResult().toString().equals("1"));
 	}
 
 	@Test
@@ -86,11 +88,11 @@ public class E2EIntegrationTest {
 		createStubforExternal_positiveResponse();
 		UUID responseUUID = restTemplate.postForObject("http://localhost:" + port + "/patient/create", entity,
 				UUID.class, Collections.emptyMap());
-		assertThat(responseUUID != null);
+		assertTrue(responseUUID != null);
 
 		ResponseEntity<String> result = restTemplate
 				.getForEntity("http://localhost:" + port + "/patient/get/" + responseUUID, String.class);
-		assertThat(result.getStatusCode().equals(200));
+		assertTrue(result.getStatusCode().is2xxSuccessful());
 	}
 
 	@Test
@@ -98,7 +100,7 @@ public class E2EIntegrationTest {
 
 		ResponseEntity<String> result = restTemplate
 				.getForEntity("http://localhost:" + port + "/patient/get/" + UUID.randomUUID(), String.class);
-		assertThat(result.getStatusCode().equals(500));
+		assertTrue(result.getStatusCode().is5xxServerError());
 	}
 
 	@Test
@@ -115,7 +117,7 @@ public class E2EIntegrationTest {
 		ResponseEntity<String> result = restTemplate.postForEntity(
 				"http://localhost:" + port + "/patient/create", entity, String.class, Collections.emptyMap());
 
-		assertThat(result.getStatusCode().equals(500));
+		assertTrue(result.getBody().contains("User Info Failed"));
 	}
 
 
@@ -127,7 +129,7 @@ public class E2EIntegrationTest {
 
 		ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:3434/baeldung/test", String.class);
 
-		assertThat(result.getStatusCode().equals(200));
+		assertTrue(result.getStatusCode().is2xxSuccessful());
 		log.info(result.getBody());
 	}
 

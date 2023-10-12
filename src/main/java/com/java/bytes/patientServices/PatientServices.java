@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import com.java.bytes.data.repositories.PatientRepo;
 import com.java.bytes.entities.Patient;
 import com.java.bytes.feign.ExternalUserInfo;
+import com.java.bytes.feign.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,12 +34,21 @@ public class PatientServices {
 	private ExternalUserInfo externalUserInfo;
 
 	@Transactional
-	public UUID createPatients(PatientDTO patientDTO) {
+	public UUID createPatients(PatientDTO patientDTO) throws Exception {
 
-		log.info(externalUserInfo.getUserId(1).toString());
-		Patient patient = Patient.builder().firstName(patientDTO.getFirstName()).lastName(patientDTO.getLastName())
-				.dateOfBirth(patientDTO.getDateOfBirth()).build();
-		return patientRepo.save(patient).getId();
+		try {
+			User user = externalUserInfo.getUserId(1);
+			// We can use this object for processing.. but in this case we are just printing
+			// it
+			log.info("## {}", user.toString());
+			Patient patient = Patient.builder().firstName(patientDTO.getFirstName()).lastName(patientDTO.getLastName())
+					.dateOfBirth(patientDTO.getDateOfBirth()).build();
+			return patientRepo.save(patient).getId();
+		} catch (feign.RetryableException ex) {
+			throw new Exception("User Info failed");
+
+		}
+
 
 	}
 
