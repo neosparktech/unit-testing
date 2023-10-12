@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "userInfo", url = "https://jsonplaceholder.typicode.com/")
+@FeignClient(value = "userInfo", url = "${external-user-url}")
 
 public interface ExternalUserInfo {
 

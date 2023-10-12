@@ -63,7 +63,7 @@ public class E2EIntegrationTest {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<String> entity = new HttpEntity<>(data, headers);
-
+		createStubforExternal_positiveResponse();
 		UUID responseUUID = restTemplate.postForObject(
 				"http://localhost:" + port + "/patient/create", entity,
 				UUID.class,
@@ -83,7 +83,7 @@ public class E2EIntegrationTest {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<String> entity = new HttpEntity<>(data, headers);
-
+		createStubforExternal_positiveResponse();
 		UUID responseUUID = restTemplate.postForObject("http://localhost:" + port + "/patient/create", entity,
 				UUID.class, Collections.emptyMap());
 		assertThat(responseUUID != null);
@@ -101,6 +101,23 @@ public class E2EIntegrationTest {
 		assertThat(result.getStatusCode().equals(500));
 	}
 
+	@Test
+	public void getPatientTestWithExternalTimeout() {
+
+		String data = "{\"firstName\": \"John\",\"lastName\": \"Doe\",\"dateOfBirth\": \"1999-09-02\"}";
+		HttpHeaders headers = new HttpHeaders();
+
+		// can set the content Type
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> entity = new HttpEntity<>(data, headers);
+		createStubforExternal_timeoutResponse();
+		ResponseEntity<String> result = restTemplate.postForEntity(
+				"http://localhost:" + port + "/patient/create", entity, String.class, Collections.emptyMap());
+
+		assertThat(result.getStatusCode().equals(500));
+	}
+
 
 	@Test
 	public void givenJUnitManagedServer_whenMatchingURL_thenCorrect() throws IOException {
@@ -112,6 +129,21 @@ public class E2EIntegrationTest {
 
 		assertThat(result.getStatusCode().equals(200));
 		log.info(result.getBody());
+	}
+
+	public void createStubforExternal_positiveResponse() {
+		stubFor(get(urlPathMatching("/users/1")).willReturn(aResponse().withStatus(200)
+				.withHeader("Content-Type", APPLICATION_JSON).withBody(
+						"{\"id\": 2,\"name\": \"Ervin Howell\",\"username\": \"Antonette\",\"email\": \"Shanna@melissa.tv\"}")));
+
+	}
+
+	public void createStubforExternal_timeoutResponse() {
+		stubFor(get(urlPathMatching("/users/1"))
+				.willReturn(aResponse().withStatus(200).withHeader("Content-Type", APPLICATION_JSON).withBody(
+						"{\"id\": 2,\"name\": \"Ervin Howell\",\"username\": \"Antonette\",\"email\": \"Shanna@melissa.tv\"}")
+						.withFixedDelay(10_000)));
+
 	}
 
 
