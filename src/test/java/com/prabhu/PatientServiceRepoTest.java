@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.prabhu.entities.Patient;
 import com.prabhu.repo.PatientRepo;
@@ -32,6 +33,9 @@ public class PatientServiceRepoTest {
 		entityManager
 				.persist(patient);
 		Optional<Patient> optionalPatient = patientRepo.findById(patient.getId());
+		log.info("Patient Counts {}", patientRepo.count());
+
+
 		if (optionalPatient.isPresent()) {
 			assertTrue(optionalPatient.get().getName().equals("prabhu"));
 			log.info("Patient ID {} ", optionalPatient.get().getId());
@@ -40,6 +44,26 @@ public class PatientServiceRepoTest {
 			fail("No Patient found");
 		}
 		//fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCount() {
+		log.info("Patient Counts {}", patientRepo.count());
+	}
+
+	@Test
+	@Sql("classpath:createPatient.sql")
+	void testWithFile() {
+
+		Optional<Patient> optionalPatient = patientRepo.findById(2L);
+		log.info("Patient Counts {}", patientRepo.count());
+		if (optionalPatient.isPresent()) {
+			assertTrue(optionalPatient.get().getName().equals("prabhu"));
+			log.info("Patient ID {} ", optionalPatient.get().getId());
+		} else {
+			fail("No Patient found");
+		}
+		// fail("Not yet implemented");
 	}
 
 }
