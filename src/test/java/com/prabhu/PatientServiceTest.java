@@ -6,7 +6,6 @@ import static org.mockito.Mockito.times;
 
 import java.time.LocalDate;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.prabhu.patient.AppointmentServices;
 import com.prabhu.patient.Patient;
 import com.prabhu.patient.PatientServices;
@@ -27,6 +27,9 @@ class PatientServiceTest {
 
 	@Mock
 	private AppointmentServices appointmentService;
+
+//	@Autowired
+//	private TestEntityManager testEntityManager;
 
 	@Test
 	@DisplayName("Test appointment booking with appointment Service returns true")
