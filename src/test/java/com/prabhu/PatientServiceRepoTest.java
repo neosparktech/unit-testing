@@ -22,22 +22,22 @@ import lombok.extern.slf4j.Slf4j;
 public class PatientServiceRepoTest {
 
 	@Autowired
-	private TestEntityManager entityManager;
+	private TestEntityManager testEntityManager;
 
 	@Autowired
 	private PatientRepo patientRepo;
 
 	@Test
-	void test() {
-		Patient patient = Patient.builder().name("prabhu").email("prabhu@test.com").build();
-		entityManager
+	void testInsertionUsingEntityManager() {
+		Patient patient = Patient.builder().name("John Smith").email("john@example.com").build();
+		testEntityManager
 				.persist(patient);
 		Optional<Patient> optionalPatient = patientRepo.findById(patient.getId());
 		log.info("Patient Counts {}", patientRepo.count());
 
 
 		if (optionalPatient.isPresent()) {
-			assertTrue(optionalPatient.get().getName().equals("prabhu"));
+			assertTrue(optionalPatient.get().getName().equals("John Smith"));
 			log.info("Patient ID {} ", optionalPatient.get().getId());
 		}
 		else {
@@ -46,19 +46,16 @@ public class PatientServiceRepoTest {
 		//fail("Not yet implemented");
 	}
 
-	@Test
-	public void testCount() {
-		log.info("Patient Counts {}", patientRepo.count());
-	}
+
 
 	@Test
 	@Sql("classpath:createPatient.sql")
-	void testWithFile() {
+	void testInsertionUsingSQL() {
 
 		Optional<Patient> optionalPatient = patientRepo.findById(2L);
 		log.info("Patient Counts {}", patientRepo.count());
 		if (optionalPatient.isPresent()) {
-			assertTrue(optionalPatient.get().getName().equals("prabhu"));
+			assertTrue(optionalPatient.get().getName().equals("John Doe"));
 			log.info("Patient ID {} ", optionalPatient.get().getId());
 		} else {
 			fail("No Patient found");
