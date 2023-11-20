@@ -1,4 +1,4 @@
-package com.prabhu.patient;
+package com.patient.services;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.prabhu.repo.PatientRepo;
+import com.patient.repo.PatientRepo;
 
 @Service
 public class PatientServices {
@@ -21,9 +21,9 @@ public class PatientServices {
 	private PatientRepo patientRepo;
 	
 	public Patient getPatient(long id) {
-		Optional<com.prabhu.entities.Patient> patientEntity = patientRepo.findById(id);
+		Optional<com.patient.entities.Patient> patientEntity = patientRepo.findById(id);
 		if(patientEntity.isPresent()) {
-			com.prabhu.entities.Patient patient = patientEntity.get();
+			com.patient.entities.Patient patient = patientEntity.get();
 			return Patient.builder().firstName(patient.getName()).lastName(patient.getEmail()).build();
 		}
 		return null;
@@ -32,7 +32,7 @@ public class PatientServices {
 	
 	public long addPatient(Patient patient) {
 		
-		com.prabhu.entities.Patient patientEntity =  com.prabhu.entities.Patient.builder().name(patient.getFirstName()) .email(patient.getLastName()).build();
+		com.patient.entities.Patient patientEntity =  com.patient.entities.Patient.builder().name(patient.getFirstName()) .email(patient.getLastName()).build();
 		patientRepo.save(patientEntity);
 		
 		return patientEntity.getPatientId();

@@ -1,4 +1,4 @@
-package com.prabhu;
+package com.patient;
 
 
 import static org.junit.Assert.assertTrue;
@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.util.CollectionUtils;
 
-import com.prabhu.entities.Patient;
-import com.prabhu.repo.PatientRepo;
+import com.patient.entities.Patient;
+import com.patient.repo.PatientRepo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,7 +52,6 @@ public class PatientServiceRepoTest {
 	void testInsertionUsingSQL() {
 
 		Optional<Patient> optionalPatient = patientRepo.findById(2L);
-		log.info("Patient Counts {}", patientRepo.count());
 		if (optionalPatient.isPresent()) {
 			assertTrue(optionalPatient.get().getName().equals("John Doe"));
 			log.info("Patient ID {} ", optionalPatient.get().getPatientId());
@@ -59,6 +59,19 @@ public class PatientServiceRepoTest {
 			fail("No Patient found");
 		}
 		// fail("Not yet implemented");
+	}
+
+	@Test
+	@Sql("classpath:testJoinQueriesUsingSQL.sql")
+	void testJoinQueriesUsingSQL() {
+		Optional<Patient> optionalPatient = patientRepo.findById(100L);
+		if (optionalPatient.isPresent()) {
+			assertTrue(optionalPatient.get().getName().equals("John Doe"));
+			assertTrue(!CollectionUtils.isEmpty(optionalPatient.get().getListAppointments()));
+			log.info(optionalPatient.get().getListAppointments().get(0).toString());
+		} else {
+			fail("No Patient found");
+		}
 	}
 
 }

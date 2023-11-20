@@ -1,4 +1,4 @@
-package com.prabhu.entities;
+package com.patient.entities;
 
 import java.time.LocalDateTime;
 
@@ -14,20 +14,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Entity
-@Table(name = "patient")
+@Table(name = "appointment")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Appointment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long appointmentId;
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "patientId")
+	@Exclude
 	private Patient patient;
 	private LocalDateTime appointmentDateTime;
     

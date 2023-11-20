@@ -1,4 +1,4 @@
-package com.prabhu.entities;
+package com.patient.entities;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.prabhu.repo;
+package com.patient.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.prabhu.entities.Patient;
+import com.patient.entities.Patient;
 
 public interface PatientRepo extends JpaRepository<Patient, Long> {
 

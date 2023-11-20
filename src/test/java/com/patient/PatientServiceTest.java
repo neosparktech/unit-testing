@@ -1,4 +1,4 @@
-package com.prabhu;
+package com.patient;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.prabhu.patient.AppointmentServices;
-import com.prabhu.patient.Patient;
-import com.prabhu.patient.PatientServices;
+import com.patient.services.AppointmentServices;
+import com.patient.services.Patient;
+import com.patient.services.PatientServices;
 
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {

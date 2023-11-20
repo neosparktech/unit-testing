@@ -1,4 +1,4 @@
-package com.prabhu.controller;
+package com.patient.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.prabhu.patient.Patient;
-import com.prabhu.patient.PatientServices;
+import com.patient.services.Patient;
+import com.patient.services.PatientServices;
 
 @RestController
 @RequestMapping("/patient")
