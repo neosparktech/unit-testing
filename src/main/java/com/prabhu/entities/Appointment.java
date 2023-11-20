@@ -1,12 +1,13 @@
 package com.prabhu.entities;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,15 +21,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Patient {
+public class Appointment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private long patientId;
-    private String name;
-    private String email;
-	@OneToMany(mappedBy = "patient")
-	private List<Appointment> listAppointments;
+	private long appointmentId;
+	@ManyToOne
+	@JoinColumn(name = "patientId")
+	private Patient patient;
+	private LocalDateTime appointmentDateTime;
     
   
 }

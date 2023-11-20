@@ -32,13 +32,11 @@ public class PatientServiceRepoTest {
 		Patient patient = Patient.builder().name("John Smith").email("john@example.com").build();
 		testEntityManager
 				.persist(patient);
-		Optional<Patient> optionalPatient = patientRepo.findById(patient.getId());
-		log.info("Patient Counts {}", patientRepo.count());
+		Optional<Patient> optionalPatient = patientRepo.findById(patient.getPatientId());
 
 
 		if (optionalPatient.isPresent()) {
 			assertTrue(optionalPatient.get().getName().equals("John Smith"));
-			log.info("Patient ID {} ", optionalPatient.get().getId());
 		}
 		else {
 			fail("No Patient found");
@@ -56,7 +54,7 @@ public class PatientServiceRepoTest {
 		log.info("Patient Counts {}", patientRepo.count());
 		if (optionalPatient.isPresent()) {
 			assertTrue(optionalPatient.get().getName().equals("John Doe"));
-			log.info("Patient ID {} ", optionalPatient.get().getId());
+			log.info("Patient ID {} ", optionalPatient.get().getPatientId());
 		} else {
 			fail("No Patient found");
 		}

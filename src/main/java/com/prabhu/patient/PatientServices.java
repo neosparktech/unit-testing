@@ -35,7 +35,7 @@ public class PatientServices {
 		com.prabhu.entities.Patient patientEntity =  com.prabhu.entities.Patient.builder().name(patient.getFirstName()) .email(patient.getLastName()).build();
 		patientRepo.save(patientEntity);
 		
-		return patientEntity.getId();
+		return patientEntity.getPatientId();
 		
 	}
 
