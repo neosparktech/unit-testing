@@ -7,11 +7,11 @@
 		<version>2.7.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.prabhu</groupId>
+	<groupId>com.patient</groupId>
 	<artifactId>unit-testing</artifactId>
 	<version>1.0.0</version>
 	<name>Unit-Testing</name>
-	<description>Demo project for Unit testing</description>
+	<description>Demo project for DB Unit testing</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

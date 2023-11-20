@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.patient.services.Patient;
+import com.patient.services.PatientVO;
 import com.patient.services.PatientServices;
 
 @RestController
@@ -20,14 +20,14 @@ public class PatientController {
 	
 	
 	@PostMapping("/add")
-	public long addPatient(@RequestBody Patient patient) {
+	public long addPatient(@RequestBody PatientVO patient) {
 		
 		return patientService.addPatient(patient);
 		
 	}
 	
 	@GetMapping("/get/{id}")
-	public Patient getPatient(@PathVariable("id") long id) {
+	public PatientVO getPatient(@PathVariable("id") long id) {
 		
 		return patientService.getPatient(id);
 		
