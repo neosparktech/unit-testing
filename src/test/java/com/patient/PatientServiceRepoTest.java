@@ -74,4 +74,12 @@ public class PatientServiceRepoTest {
 		}
 	}
 
+	@Test
+	@Sql("classpath:createPatient.sql")
+	void testNamedQueries() {
+		Patient patient = patientRepo.findPatientByEmailID("john@example.com");
+		assertTrue(patient.getName().equals("John Doe"));
+
+	}
+
 }
