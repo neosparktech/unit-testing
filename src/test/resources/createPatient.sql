@@ -1,0 +1,1 @@
+insert into patient values(2,'john@example.com','John Doe')

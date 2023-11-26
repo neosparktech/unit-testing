@@ -1,4 +1,4 @@
-package com.prabhu;
+package com.patient;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,8 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.prabhu.patient.AppointmentServices;
-import com.prabhu.patient.Patient;
+import com.patient.services.AppointmentServices;
+import com.patient.services.PatientVO;
 
 @ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {
@@ -25,7 +25,8 @@ class AppointmentServiceTest {
 
 	@Test
 	void test_appointment_date_in_past() {
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		PatientVO testPatient = PatientVO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now())
+				.build();
 
 		LocalDateTime fixedDateTime = LocalDateTime.of(2023, 4, 2, 10, 00);
 		try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class)) {
@@ -38,7 +39,8 @@ class AppointmentServiceTest {
 	@Test
 	void test_appointment_date_not_in_past()
 	{
-		Patient testPatient = Patient.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now()).build();
+		PatientVO testPatient = PatientVO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now())
+				.build();
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
 			appointmentService.bookAppointment(testPatient, LocalDateTime.of(2023, 4, 2, 10, 00));

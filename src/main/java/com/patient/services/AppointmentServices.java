@@ -1,4 +1,5 @@
-package com.prabhu.patient;
+package com.patient.services;
+
 
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AppointmentServices {
 
-	public boolean bookAppointment(Patient patient, LocalDateTime appointmentDateTime) {
+	public boolean bookAppointment(PatientVO patient, LocalDateTime appointmentDateTime) {
 
 		log.info("LocalDateTime.now() {}", LocalDateTime.now());
 		if (appointmentDateTime.isBefore(LocalDateTime.now())) {
