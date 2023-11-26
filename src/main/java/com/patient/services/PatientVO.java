@@ -1,4 +1,4 @@
-package com.prabhu.patient;
+package com.patient.services;
 
 import java.time.LocalDate;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Patient {
+public class PatientVO {
 	
 	private String firstName;
 	private String lastName;
