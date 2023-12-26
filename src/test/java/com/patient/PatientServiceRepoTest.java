@@ -42,10 +42,7 @@ public class PatientServiceRepoTest {
 		else {
 			fail("No Patient found");
 		}
-		//fail("Not yet implemented");
 	}
-
-
 
 	@Test
 	@Sql("classpath:createPatient.sql")
