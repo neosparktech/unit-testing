@@ -2,9 +2,12 @@ package com.patient.services;
 
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -18,9 +21,16 @@ public class AppointmentServices {
 			throw new IllegalArgumentException("Appointment Datetime cannot be less than today date");
 		}
 		//Call some external service
+		HttpResponse<User> httpResponseAsUser = Unirest.post("https://dummyjson.com/posts/1")
+				.header("Content-Type", "application/json")
+				.header("X-RAW-HEADER", "Some headers").body(patient)
+				.asObject(User.class);
+
+		Optional.ofNullable(httpResponseAsUser.getBody()).ifPresent(s -> {
+			log.info(s.getName());
+			// Do something with responseObject
+		});
 		return true;
-		
-		
 	}
 
 }
