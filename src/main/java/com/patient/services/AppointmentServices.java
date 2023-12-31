@@ -26,11 +26,9 @@ public class AppointmentServices {
 				.header("X-RAW-HEADER", "Some headers").body(patient)
 				.asObject(User.class);
 
-		Optional.ofNullable(httpResponseAsUser.getBody()).ifPresent(s -> {
-			log.info(s.getName());
-			// Do something with responseObject
-		});
-		return true;
+		return Optional.ofNullable(httpResponseAsUser.getBody()).filter(s -> patient.getFirstName().equals(s.getName()))
+				.isPresent();
+
 	}
 
 }
