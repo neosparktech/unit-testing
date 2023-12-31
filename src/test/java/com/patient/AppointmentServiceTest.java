@@ -1,6 +1,8 @@
 package com.patient;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -59,7 +61,42 @@ class AppointmentServiceTest {
 			mockedUnirest.when(() -> Unirest.post(anyString())).thenReturn(httpRequestWithBody);
 
 
-			appointmentService.bookAppointment(testPatient, fixedDateTime);
+			assertTrue(appointmentService.bookAppointment(testPatient, fixedDateTime));
+		}
+	}
+
+	@Test
+	void test_matched_name()
+	{
+		PatientVO testPatient = PatientVO.builder().firstName("John").lastName("Doe").dateOfBirth(LocalDate.now())
+				.build();
+
+		LocalDateTime fixedDateTime = LocalDateTime.of(2023, 4, 2, 10, 00);
+		setMockUniRest();
+
+		try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class);
+				MockedStatic<Unirest> mockedUnirest = Mockito.mockStatic(Unirest.class)) {
+			mockedLocalDateTime.when(LocalDateTime::now).thenReturn(fixedDateTime);
+			mockedUnirest.when(() -> Unirest.post(anyString())).thenReturn(httpRequestWithBody);
+
+			assertTrue(appointmentService.bookAppointment(testPatient, fixedDateTime));
+		}
+	}
+
+	@Test
+	void test_unmatched_name() {
+		PatientVO testPatient = PatientVO.builder().firstName("Thomas").lastName("Doe").dateOfBirth(LocalDate.now())
+				.build();
+
+		LocalDateTime fixedDateTime = LocalDateTime.of(2023, 4, 2, 10, 00);
+		setMockUniRest();
+
+		try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class);
+				MockedStatic<Unirest> mockedUnirest = Mockito.mockStatic(Unirest.class)) {
+			mockedLocalDateTime.when(LocalDateTime::now).thenReturn(fixedDateTime);
+			mockedUnirest.when(() -> Unirest.post(anyString())).thenReturn(httpRequestWithBody);
+
+			assertFalse(appointmentService.bookAppointment(testPatient, fixedDateTime));
 		}
 	}
 
@@ -83,7 +120,7 @@ class AppointmentServiceTest {
 			when(httpRequestWithBody.header(anyString(), anyString())).thenReturn(httpRequestWithBody);
 			when(httpRequestWithBody.body(any(PatientVO.class))).thenReturn(requestBodyEntity);
 			when(requestBodyEntity.asObject((User.class))).thenReturn(httpResponse);
-			when(httpResponse.getBody()).thenReturn(User.builder().name("demo User").build());
+			when(httpResponse.getBody()).thenReturn(User.builder().name("John").build());
 
 
 	}
